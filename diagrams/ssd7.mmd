@@ -1,0 +1,15 @@
+sequenceDiagram
+    actor Player
+    participant System
+    
+    Note over Player, System: UC-07: Equip Weapon/Armor
+    Player->>System: clickInventoryItem(item)
+    Player->>System: selectAction("EQUIP")
+    
+    alt Item of same type equipped
+        System->>System: unequipCurrentWeapon()
+    end
+    
+    System->>System: setEquipped(item, true)
+    System->>System: recalculateTotalStats()
+    System-->>Player: updateCharacterSheetUI()

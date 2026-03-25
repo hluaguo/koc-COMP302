@@ -1,0 +1,13 @@
+sequenceDiagram
+    actor Player
+    participant System
+    
+    Note over Player, System: UC-02: Start Random Game
+    Player->>System: click("Start Random Game")
+    System->>System: generate random map layout
+    System->>System: spawn random items
+    System->>System: select Target Item
+    System->>System: hide Target Item in container/location
+    System-->>Player: display UI prompt (Target Item)
+    Player->>System: click("Acknowledge")
+    System->>System: begin gameplay

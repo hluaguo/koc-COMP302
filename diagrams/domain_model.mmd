@@ -1,0 +1,82 @@
+classDiagram
+    class GameEngine {
+        +String state
+        +startNewGame()
+        +pauseResume()
+    }
+    class Map {
+        +validateTileEmpty(x, y)
+        +serializeToJSON()
+    }
+    class Tile {
+        +int x
+        +int y
+        +boolean isPassable
+    }
+    class Character {
+        <<abstract>>
+        +int HP
+        +int STR
+        +int DEF
+        +int x_pos
+        +int y_pos
+    }
+    class Hero {
+        +int Mana
+        +int Energy
+    }
+    class Enemy {
+        <<abstract>>
+        +calculatePathfinding()
+    }
+    class Knight {
+        +meleeAttack()
+    }
+    class Sorcerer {
+        +rangedAttack()
+        +teleport()
+    }
+    class Item {
+        <<abstract>>
+        +String Name
+    }
+    class Weapon {
+        +int ATK
+        +boolean isEquipped
+    }
+    class Armor {
+        +int DEF
+        +boolean isEquipped
+    }
+    class Container {
+        +boolean isLocked
+        +String keyId
+    }
+    class Inventory {
+        +int capacity
+        +addItem()
+        +removeItem()
+    }
+    class Action {
+        +String actionType
+        +execute()
+    }
+
+    GameEngine "1" *-- "1" Map : manages
+    Map "1" *-- "*" Tile : contains
+    Tile "1" o-- "*" Item : holds
+    Tile "1" o-- "0..1" Character : occupies
+    
+    Character <|-- Hero
+    Character <|-- Enemy
+    Enemy <|-- Knight
+    Enemy <|-- Sorcerer
+    
+    Item <|-- Weapon
+    Item <|-- Armor
+    Item <|-- Container
+    
+    Hero "1" *-- "1" Inventory : possesses
+    Inventory "1" o-- "0..8" Item : stores
+    Container "1" o-- "*" Item : contains
+    Item "1" --> "*" Action : provides

@@ -1,0 +1,19 @@
+sequenceDiagram
+    actor Player
+    participant System
+    
+    Note over Player, System: UC-05: Attack Enemy (Melee)
+    Player->>System: clickEnemy(enemy)
+    System-->>Player: showActionMenu(enemy)
+    Player->>System: selectAction("ATTACK")
+    
+    System->>System: calculateDamage(Hero.STR, Weapon.ATK, Enemy.DEF)
+    System->>System: reduceEnemyHP(damage)
+    System->>System: deductHeroEnergy(attackCost)
+    
+    alt Enemy HP <= 0
+        System->>System: remove Enemy from Map
+        System->>System: roll for loot drop
+    end
+    
+    System-->>Player: renderAttackAnimationAndUpdatedStats()

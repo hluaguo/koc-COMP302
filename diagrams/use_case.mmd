@@ -1,0 +1,55 @@
+flowchart LR
+    Player(("👤 Player\n(Primary Actor)"))
+    Sys(("⚙️ Game Loop\n(Secondary Actor)"))
+
+    subgraph SystemBoundary [Dungeon KUrawler System]
+        UC1([Start Random Game])
+        UC1b([Start Custom Game])
+        UC2([Load Map])
+        UC3([Save Map])
+        UC4([Clear Map])
+        UC5([Pause/Resume Game])
+        UC6([Exit to Main Menu])
+        
+        UC7([Enter Build Mode])
+        UC8([Place Object])
+        UC9([Populate Random Items])
+        
+        UC10([Move Hero])
+        UC11([Take Item])
+        UC12([Search Location])
+        UC13([Open Container])
+        UC14([Discard Item])
+        
+        UC15([View Character Sheet])
+        UC16([Equip Weapon/Armor])
+        UC17([Attack Enemy - Melee])
+        UC18([Cast Ranged Spell])
+        UC19([Consume Item])
+        
+        UC20([Enemy AI Turn - Spawn & Move])
+
+        %% UML Depth: Includes and Extends
+        UC_Energy([Consume Energy])
+        UC_Mana([Consume Mana])
+        UC_Loot([Drop Random Loot])
+        UC_CheckKey([Check Required Key])
+        
+        UC10 -. "<<include>>" .-> UC_Energy
+        UC12 -. "<<include>>" .-> UC_Energy
+        UC17 -. "<<include>>" .-> UC_Energy
+        
+        UC18 -. "<<include>>" .-> UC_Mana
+        
+        UC13 -. "<<include>>" .-> UC_CheckKey
+        
+        UC17 -. "<<extend>>\n(If Enemy Dies)" .-> UC_Loot
+        UC12 -. "<<extend>>\n(If Target Found)" .-> UC_Loot
+    end
+
+    Player --- UC1 & UC1b & UC2 & UC3 & UC4 & UC5 & UC6
+    Player --- UC7 & UC8 & UC9
+    Player --- UC10 & UC11 & UC12 & UC13 & UC14
+    Player --- UC15 & UC16 & UC17 & UC18 & UC19
+
+    Sys --- UC20

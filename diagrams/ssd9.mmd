@@ -1,0 +1,20 @@
+sequenceDiagram
+    actor Player
+    participant System
+    
+    Note over Player, System: UC-09: Search Hidden Location
+    Player->>System: clickStaticObject(object)
+    Player->>System: selectAction("SEARCH")
+    
+    System->>System: deductEnergy(searchCost)
+    System->>System: checkHiddenInventory()
+    
+    alt Item found
+        System-->>Player: displayMessage("Found Item X")
+        System->>System: transferItemToInventory(item)
+        opt Item is Target Item
+            System->>System: trigger "Game Won" sequence
+        end
+    else Nothing found
+        System-->>Player: displayMessage("Nothing found")
+    end

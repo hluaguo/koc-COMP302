@@ -1,0 +1,20 @@
+sequenceDiagram
+    actor System_Timer as System (Timer)
+    participant System
+    actor Player
+    
+    Note over System_Timer, Player: UC-10: Enemy AI Turn (Spawn & Move)
+    System_Timer->>System: triggerSpawnEvent()
+    System->>System: countActiveEnemies()
+    
+    alt Active enemies < 5
+        System->>System: getRandomEdgeTile()
+        System->>System: instantiateEnemy(randomType)
+        System-->>Player: renderNewEnemyAt(x,y)
+    end
+    
+    loop For each Knight within 5 tiles
+        System->>System: calculatePathfinding(Hero)
+        System->>System: updateKnightPosition()
+        System-->>Player: renderEnemyMove()
+    end

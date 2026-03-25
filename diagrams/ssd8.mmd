@@ -1,0 +1,20 @@
+sequenceDiagram
+    actor Player
+    participant System
+    
+    Note over Player, System: UC-08: Open Container with Key
+    Player->>System: clickContainer(chest)
+    System->>System: checkHeroInventory(keyId)
+    
+    alt Has Required Key
+        System-->>Player: showActionMenu("Open Chest with Key")
+        Player->>System: selectAction("Open Chest")
+        System->>System: removeKeyFromInventory(keyId)
+        System->>System: changeChestState("Open")
+        System-->>Player: displayContainerContentsUI()
+        opt Target Item inside
+            System->>System: trigger "Game Won" sequence
+        end
+    else Does not have key
+        System-->>Player: display locked message
+    end

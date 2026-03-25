@@ -1,0 +1,16 @@
+sequenceDiagram
+    actor Player
+    participant System
+    
+    Note over Player, System: UC-01: Place Object (Build Mode)
+    Player->>System: selectObject(objectType)
+    Player->>System: dragAndDrop(x, y)
+    
+    alt Target tile is empty & passable
+        System->>System: validateTileEmpty(x, y)
+        System->>System: update Map data structure
+        System-->>Player: renderObjectAt(x, y)
+    else Target tile is occupied
+        System-->>Player: display visual warning (red highlight)
+        System-->>Player: cancel placement (snap back to palette)
+    end

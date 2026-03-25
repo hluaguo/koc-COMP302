@@ -1,0 +1,16 @@
+sequenceDiagram
+    actor Player
+    participant System
+    
+    Note over Player, System: UC-03: Move Hero
+    Player->>System: pressArrowKey(direction)
+    System->>System: calculateTargetCell(direction)
+    System->>System: checkCollision()
+    
+    alt Has sufficient Energy and cell is free
+        System->>System: deductEnergy(moveCost)
+        System-->>Player: updateHeroPositionAndStats()
+    else Lacks sufficient Energy
+        System-->>Player: play error sound
+        System-->>Player: Hero remains in place
+    end

@@ -1,0 +1,18 @@
+sequenceDiagram
+    actor Player
+    participant System
+    
+    Note over Player, System: UC-06: Cast Ranged Spell
+    Player->>System: openInventory()
+    Player->>System: clickItem("Spell Book")
+    Player->>System: selectAction("READ")
+    System->>System: checkMana(spellCost)
+    
+    alt Sufficient Mana
+        System->>System: deductMana(spellCost)
+        System->>System: createProjectile(Hero.x, Hero.y, direction)
+        System-->>Player: renderProjectilePath()
+        System->>System: apply damage on hit
+    else Insufficient Mana
+        System-->>Player: display lack of mana message
+    end

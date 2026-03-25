@@ -1,0 +1,17 @@
+sequenceDiagram
+    actor Player
+    participant System
+    
+    Note over Player, System: UC-04: Take Item
+    Player->>System: clickItem(item)
+    System-->>Player: showActionMenu(item)
+    Player->>System: selectAction("TAKE")
+    System->>System: checkInventorySpace()
+    
+    alt Inventory has empty slot
+        System->>System: addItemToInventory(item)
+        System->>System: removeItemFromMap(item)
+        System-->>Player: close action menu and update UI
+    else Inventory is full
+        System-->>Player: show "Take" option grayed out
+    end
